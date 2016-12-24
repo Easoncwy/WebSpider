@@ -27,8 +27,6 @@ public class Spider {
             String line;
             while ((line = in.readLine()) != null){
                 result += line;
-
-
             }
 
         }catch (Exception e){
@@ -47,22 +45,26 @@ public class Spider {
         return result;
     }
 
-    public static ArrayList<String> regexString(String targetStr, String patternStr){
-        ArrayList<String> results = new ArrayList<>();
+    public static ArrayList<Zhihu> GetZhihu(String content){
+        ArrayList<Zhihu> results = new ArrayList<>();
 
-        Pattern pattern = Pattern.compile(patternStr);
-        Matcher matcher = pattern.matcher(targetStr);
-        boolean isFind = matcher.find();
+        Pattern questionPattern = Pattern.compile("question_link.+?>(.+?)<");
+        Matcher questionMatcher = questionPattern.matcher(content);
+
+        Pattern urlPattern = Pattern.compile("question_link.+?href=\"(.+?)\"");
+        Matcher urlMatcher = urlPattern.matcher(content);
+
+        boolean isFind = questionMatcher.find() && urlMatcher.find();
 
         while (isFind){
-            results.add(matcher.group(1));
-            isFind = matcher.find();
+            Zhihu zhihuTemp = new Zhihu();
+            zhihuTemp.question = questionMatcher.group(1);
+            zhihuTemp.zhihuUrl = "http://www.zhihu.com" + urlMatcher.group(1);
+
+            results.add(zhihuTemp);
+            isFind = questionMatcher.find() && urlMatcher.find();
+
         }
-        /*
-        if (matcher.find()){
-            return matcher.group(1);
-        }
-        */
         return results;
     }
 

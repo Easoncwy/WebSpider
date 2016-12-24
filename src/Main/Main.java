@@ -1,5 +1,8 @@
 package Main;
 
+import Zhihu.Spider;
+import Zhihu.Zhihu;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -13,17 +16,12 @@ import java.util.regex.Pattern;
  */
 public class Main {
 
-
-
-
-
-
     public static void main(String[] args) {
         String url = "https://www.zhihu.com/explore/recommendations";
-        String result = sendGet(url);
-        ArrayList<String> imgSrc = regexString(result, "question_link.+?>(.+?)<");
+        String content = Spider.sendGet(url);
+        ArrayList<Zhihu> myZhihu = Spider.GetZhihu(content);
 
-        System.out.println(imgSrc);
+        System.out.println(myZhihu);
 //        System.out.println(result);
 //        Pattern pattern = Pattern.compile("href=\"(.+?)\"");
 //        Matcher matcher = pattern.matcher("<a href=\"index.html\">我的主页</a>");
