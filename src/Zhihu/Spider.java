@@ -23,7 +23,8 @@ public class Spider {
             URLConnection connection = readUrl.openConnection();
 
             connection.connect();
-            in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            in = new BufferedReader(new InputStreamReader(
+                    connection.getInputStream()));
             String line;
             while ((line = in.readLine()) != null){
                 result += line;
@@ -44,9 +45,36 @@ public class Spider {
 //        System.out.println(result);
         return result;
     }
+    public static ArrayList<Zhihu> getRecommendations(String content){
+        ArrayList<Zhihu> results = new ArrayList<>();
+        Pattern pattern = Pattern.compile("<h2>.+?question_link.+?href=\"(.+?)\".+?</h2>");
+        Matcher matcher = pattern.matcher(content);
+        boolean isFind = matcher.find();
+        while (isFind){
+            Zhihu zhihuTemp = new Zhihu(matcher.group(1));
+            results.add(zhihuTemp);
+            isFind = matcher.find();
+        }
+        return results;
 
+    }
+
+
+
+    /*
     public static ArrayList<Zhihu> GetZhihu(String content){
         ArrayList<Zhihu> results = new ArrayList<>();
+
+        Pattern urlPattern = Pattern.compile("<h2>.+?question_link.+?href=\"(.+?)\".+?</h2>");
+        Matcher urlMatcher = urlPattern.matcher(content);
+        boolean isFind = urlMatcher.find();
+        while (isFind){
+            Zhihu zhihuTemp = new Zhihu(urlMatcher.group(1));
+            results.add(zhihuTemp);
+            isFind = urlMatcher.find();
+        }
+
+
 
         Pattern questionPattern = Pattern.compile("question_link.+?>(.+?)<");
         Matcher questionMatcher = questionPattern.matcher(content);
@@ -67,6 +95,8 @@ public class Spider {
         }
         return results;
     }
+    */
+
 
 
 

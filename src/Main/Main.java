@@ -19,8 +19,9 @@ public class Main {
     public static void main(String[] args) {
         String url = "https://www.zhihu.com/explore/recommendations";
         String content = Spider.sendGet(url);
-        ArrayList<Zhihu> myZhihu = Spider.GetZhihu(content);
+//        ArrayList<Zhihu> myZhihu = Spider.GetZhihu(content);
 
+        ArrayList<Zhihu> myZhihu = Spider.getRecommendations(content);
         System.out.println(myZhihu);
 //        System.out.println(result);
 //        Pattern pattern = Pattern.compile("href=\"(.+?)\"");
